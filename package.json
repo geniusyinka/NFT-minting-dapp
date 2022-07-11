@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.7.0",
     "@rainbow-me/rainbowkit": "^0.3.2",
+    "dotenv": "^16.0.1",
     "ethers": "^5.6.8",
     "next": "^12.1.6",
     "react": "^18.1.0",
@@ -17,10 +19,16 @@
     "wagmi": "^0.4.2"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.1.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@types/node": "^17.0.35",
     "@types/react": "^18.0.9",
+    "autoprefixer": "^10.4.7",
     "eslint": "^8.15.0",
     "eslint-config-next": "^12.1.6",
+    "hardhat": "^2.10.0",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.4",
     "typescript": "^4.7.2"
   }
 }
