@@ -2,6 +2,7 @@
 
 A full stack dApp starter for minting NFTs built on Ethereum (Solidity) with Next.js (React, TypeScript).
 
+![NFT Minting dApp Starter](/pages/screenshot.png)
 
 ## Prerequisites
 
