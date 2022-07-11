@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { stringify } from 'querystring';
 import { useState, useRef } from 'react';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount, useBalance, useDisconnect  } from 'wagmi';
 import styles from '../styles/Home.module.css';
 import { ethers } from 'ethers'
 import { hasEthereum } from '../utils/ethereum'
@@ -19,7 +19,9 @@ const Home: NextPage = () => {
   //   addressOrName: address,
   // })
 
-  const MINT_PRICE = 0.07
+  const { disconnect } = useDisconnect()
+
+  const MINT_PRICE = 0.03
   const MAX_MINT = 3
 
   // UI state
@@ -40,7 +42,7 @@ const Home: NextPage = () => {
       return
     }
     if (mintQuantity > MAX_MINT) {
-      setMintMessage('You can only mint a maximum of 5 NFTs.')
+      setMintMessage('You can only mint a maximum of 3 NFTs.')
       setMintError(true)
       mintQuantityInputRef.current.focus()
       return
@@ -89,13 +91,15 @@ const Home: NextPage = () => {
         <ConnectButton />
         <Head>
 
-          <title>The Dapp List NFT Minting dApp Starter</title>
+          <title>NFT Minting dApp Starter</title>
           <meta
             name="description"
             content="Mint an NFT, or a number of NFTs, from the client-side."
           />
           <link rel="icon" href="/favicon.ico" />
         </Head>
+         <button onClick={() => disconnect()}>Disconnect</button>
+
         {/* <Connect /> */}
         {/* <Wallet /> */}
 
