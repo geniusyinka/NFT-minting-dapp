@@ -76,4 +76,3 @@ All state is retained on browser refresh.
 - [x] Show the funds available in the connected account's wallet
 - [ ] change NFTs to PFPs.
 - [ ] limit mint per wallet.
-- 
