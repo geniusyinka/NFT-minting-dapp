@@ -1,10 +1,14 @@
-
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+//@ts-nocheck
+import {
+  ConnectButton, useConnectModal,
+  useAccountModal,
+  useChainModal,
+} from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { stringify } from 'querystring';
-import { useState, useRef } from 'react';
-import { useAccount, useBalance, useDisconnect  } from 'wagmi';
+import { useState, useRef, useEffect } from 'react';
+import { useAccount, useBalance, useDisconnect, useConnect } from 'wagmi';
 import styles from '../styles/Home.module.css';
 import { ethers } from 'ethers'
 import { hasEthereum } from '../utils/ethereum'
@@ -12,17 +16,38 @@ import Minter from '../src/artifacts/contracts/Minter.sol/Minter.json'
 import TotalSupply from '../components/TotalSupply'
 import Wallet from '../components/Wallet'
 import YourNFTs from '../components/YourNFTs'
+import { connected } from 'process';
 
-const Home: NextPage = () => {
-  // const [address, setAddress] = useState('vitalik.eth')
-  // const { data, isError, isLoading } = useBalance({
-  //   addressOrName: address,
-  // })
 
-  const { disconnect } = useDisconnect()
+function Home() {
+  const { openConnectModal } = useConnectModal();
+  const { openAccountModal } = useAccountModal();
+  const { openChainModal } = useChainModal();
+
+  const { address, isConnecting, isDisconnected, isConnected, account } = useAccount({
+    onConnect({ address, connector, isReconnected }) {
+      console.log('Connected', { address, connector, isReconnected })
+    },
+  });
+
+  const [add, setAdd] = useState('');
+ 
+
+
+  useEffect(() => {
+    async function getAccount() {
+      const provider = new ethers.providers.Web3Provider(web3.currentProvider);
+      const signer = provider.getSigner();
+      const address = signer.getAddress()
+      console.log(await address)
+      setAdd(await address)
+    }
+    getAccount();
+  }, [])
+
 
   const MINT_PRICE = 0.03
-  const MAX_MINT = 3
+  const MAX_MINT = 20
 
   // UI state
   const [mintQuantity, setMintQuantity] = useState(1)
@@ -42,7 +67,7 @@ const Home: NextPage = () => {
       return
     }
     if (mintQuantity > MAX_MINT) {
-      setMintMessage('You can only mint a maximum of 3 NFTs.')
+      setMintMessage('You can only mint a maximum of 10 NFTs.')
       setMintError(true)
       mintQuantityInputRef.current.focus()
       return
@@ -98,7 +123,7 @@ const Home: NextPage = () => {
           />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-         <button onClick={() => disconnect()}>Disconnect</button>
+        {/* <button onClick={() => disconnect()}>Disconnect</button> */}
 
         {/* <Connect /> */}
         {/* <Wallet /> */}
@@ -113,7 +138,7 @@ const Home: NextPage = () => {
             ) : (
               <>
                 <h1 className="text-4xl font-semibold mb-8">
-                   NFT Minting dApp Starter v2
+                  NFT Minting dApp Starter v2
                 </h1>
                 <TotalSupply />
                 <div className="space-y-8">
@@ -136,18 +161,25 @@ const Home: NextPage = () => {
                           placeholder="1"
                           type="number"
                           min="1"
-                          max="10"
+                          max="20"
                           ref={mintQuantityInputRef}
                         />
-
-                        <button
+                        {isConnected ? <button
                           className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-tr rounded-br w-1/3"
                           onClick={mintNFTs}
                         >
                           Mint
-                        </button>
+                        </button> :
+                          openConnectModal && (
+                          <button
+                            className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-4 rounded-tr rounded-br w-1/3"
+                            onClick={openConnectModal}
+                            type='button'
+                          >
+                            connect wallet
+                          </button>)
+                        }
                       </div>
-
                       {mintMessage && (
                         <span
                           className={
@@ -164,7 +196,7 @@ const Home: NextPage = () => {
                 </div>
               </>
             )}
-            <YourNFTs />
+            {isConnected ? <YourNFTs /> : null}
           </div>
         </main>
         <footer className="mt-20 text-center">
