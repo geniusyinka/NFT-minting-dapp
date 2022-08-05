@@ -9,12 +9,13 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
  * @title Minter contract
  * @dev Extends ERC721Enumerable Non-Fungible Token Standard
  */
+ 
 contract Minter is ERC721Enumerable {
     using SafeMath for uint256;
 
     // Contract global variables.
     uint256 public constant mintPrice = 30000000000000000; // 0.03 ETH.
-    uint256 public constant maxMint = 10;
+    uint256 public constant maxMint = 15;
     uint256 public MAX_TOKENS = 10000;
 
     // Name token using inherited ERC721 constructor.
@@ -43,6 +44,7 @@ contract Minter is ERC721Enumerable {
                 _safeMint(msg.sender, mintIndex);
             }
         }
+
     }
 
     function getBalance() public view returns (uint256) {
