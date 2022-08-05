@@ -68,3 +68,12 @@ If you successfully mint a number of NFTs, you should see the `Tokens minted` am
 Switching accounts in MetaMask will update the wallet address in the top right hand corner. Disconnecting all accounts will prompt you to connect your wallet.
 
 All state is retained on browser refresh.
+
+# Roadmap
+
+- [x] replace the connect wallet button with rainbow kit.
+- [x] enable the ability to disconnect wallet, and prevent user from minting.
+- [x] Show the funds available in the connected account's wallet
+- [ ] change NFTs to PFPs.
+- [ ] limit mint per wallet.
+- 
