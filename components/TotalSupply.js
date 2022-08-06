@@ -57,11 +57,11 @@ export default function TotalSupply() {
     }
 
     return (
-        <>
+        <div className=" mb-11">
             <p>
                 Tokens minted: { loading ? 'Loading...' : `${totalMinted}/${TOTAL}` }<br />
                 Contract value: { loading ? 'Loading...' : `${totalValue}ETH` }
             </p>
-        </>
+        </div>
     )
 }
