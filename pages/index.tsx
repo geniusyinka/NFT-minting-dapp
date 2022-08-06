@@ -3,6 +3,7 @@ import {
   ConnectButton, useConnectModal,
   useAccountModal,
   useChainModal,
+  RainbowKitProvider
 } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -31,7 +32,7 @@ function Home() {
   });
 
   const [add, setAdd] = useState('');
- 
+
 
 
   useEffect(() => {
@@ -108,9 +109,20 @@ function Home() {
     }
     setMintLoading(false)
   }
+  const incNum = () =>  {
+    if (mintQuantity<10) {
+      setMintQuantity(Number(mintQuantity)+1)
+    }
+  }
 
+  const decNum = () => {
+    if (mintQuantity>0) {
+      setMintQuantity(mintQuantity - 1)
+    }
+  }
 
   return (
+
     <div className={styles.container}>
       <div className="max-w-xl mt-36 mx-auto px-4 text-center">
         <ConnectButton />
@@ -142,18 +154,22 @@ function Home() {
                 </h1>
                 <TotalSupply />
                 <div className="space-y-8">
-                  <div className="bg-gray-100 p-4 lg:p-8">
+                  <div className="bg-gray-100 p-4 lg:p-8 rounded-xl">
                     <div>
                       <h2 className="text-2xl font-semibold mb-2">Mint NFTs</h2>
                       <label className="text-gray-600 text-sm mb-2 inline-block">
-                        How many NFTs would you like to mint from the smart
-                        contract?
+                        insert the number of NFTs to mint:
                       </label>
-                      <div className="flex">
+                      <div className="">
+                        <button 
+                        className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 mr-6 rounded-md"
+                        onClick={decNum}>
+                          -
+                        </button>
                         <input
                           className={
                             !mintError
-                              ? 'border p-4 text-center rounded-tl rounded-bl focus:outline-none focus:border-blue-600 w-2/3'
+                              ? 'border p-4 text-center rounded-tl rounded-bl focus:outline-none focus:border-blue-600 w-2/6'
                               : 'border border-red-500 p-4 text-center rounded-tl rounded-bl focus:outline-none focus:border-blue-600 w-2/3'
                           }
                           onChange={(e) => setMintQuantity(e.target.value)}
@@ -164,6 +180,13 @@ function Home() {
                           max="20"
                           ref={mintQuantityInputRef}
                         />
+                        <button
+                        onClick={incNum}
+                        className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 ml-6 rounded-md"
+                        > + </button>
+                      </div>
+                      <div className="buttons mt-4">
+
                         {isConnected ? <button
                           className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-tr rounded-br w-1/3"
                           onClick={mintNFTs}
@@ -171,15 +194,16 @@ function Home() {
                           Mint
                         </button> :
                           openConnectModal && (
-                          <button
-                            className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-4 rounded-tr rounded-br w-1/3"
-                            onClick={openConnectModal}
-                            type='button'
-                          >
-                            connect wallet
-                          </button>)
+                            <button
+                              className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-4 rounded-tr rounded-br w-1/3"
+                              onClick={openConnectModal}
+                              type='button'
+                            >
+                              connect wallet
+                            </button>)
                         }
                       </div>
+
                       {mintMessage && (
                         <span
                           className={
