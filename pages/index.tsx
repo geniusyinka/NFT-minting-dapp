@@ -35,16 +35,16 @@ function Home() {
 
 
 
-  useEffect(() => {
-    async function getAccount() {
-      const provider = new ethers.providers.Web3Provider(web3.currentProvider);
-      const signer = provider.getSigner();
-      const address = signer.getAddress()
-      console.log(await address)
-      setAdd(await address)
-    }
-    getAccount();
-  }, [])
+  // useEffect(() => {
+  //   async function getAccount() {
+  //     const provider = new ethers.providers.Web3Provider(web3.currentProvider);
+  //     const signer = provider.getSigner();
+  //     const address = signer.getAddress()
+  //     console.log(await address)
+  //     setAdd(await address)
+  //   }
+  //   getAccount();
+  // }, [])
 
 
   const MINT_PRICE = 0.03
@@ -56,7 +56,6 @@ function Home() {
   const [mintError, setMintError] = useState(false)
   const [mintMessage, setMintMessage] = useState('')
   const [mintLoading, setMintLoading] = useState(false)
-  const [text, changeText] = useState('')
 
 
   async function mintNFTs() {
@@ -102,6 +101,7 @@ function Home() {
       } catch {
         setMintMessage('Connect your wallet first.')
         setMintError(true)
+        // console.log(error)
       }
     } catch (error) {
       setMintMessage(error.message)
@@ -109,14 +109,14 @@ function Home() {
     }
     setMintLoading(false)
   }
-  const incNum = () =>  {
-    if (mintQuantity<10) {
-      setMintQuantity(Number(mintQuantity)+1)
+  const incNum = () => {
+    if (mintQuantity < 10) {
+      setMintQuantity(Number(mintQuantity) + 1)
     }
   }
 
   const decNum = () => {
-    if (mintQuantity>0) {
+    if (mintQuantity > 0) {
       setMintQuantity(mintQuantity - 1)
     }
   }
@@ -127,7 +127,6 @@ function Home() {
       <div className="max-w-xl mt-36 mx-auto px-4 text-center">
         <ConnectButton />
         <Head>
-
           <title>NFT Minting dApp Starter</title>
           <meta
             name="description"
@@ -135,11 +134,6 @@ function Home() {
           />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        {/* <button onClick={() => disconnect()}>Disconnect</button> */}
-
-        {/* <Connect /> */}
-        {/* <Wallet /> */}
-
         <main className="space-y-8">
           <div className="head mt-14">
             {!process.env.NEXT_PUBLIC_MINTER_ADDRESS ? (
@@ -157,20 +151,17 @@ function Home() {
                   <div className="bg-gray-100 p-4 lg:p-8 rounded-xl">
                     <div>
                       <h2 className="text-2xl font-semibold mb-2">Mint NFTs</h2>
-                      <label className="text-gray-600 text-sm mb-2 inline-block">
-                        insert the number of NFTs to mint:
-                      </label>
                       <div className="">
-                        <button 
-                        className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 mr-6 rounded-md"
-                        onClick={decNum}>
+                        <button
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 mr-6 rounded-md"
+                          onClick={decNum}>
                           -
                         </button>
                         <input
                           className={
                             !mintError
                               ? 'border p-4 text-center rounded-tl rounded-bl focus:outline-none focus:border-blue-600 w-2/6'
-                              : 'border border-red-500 p-4 text-center rounded-tl rounded-bl focus:outline-none focus:border-blue-600 w-2/3'
+                              : 'border border-red-500 p-4 text-center rounded-md focus:outline-none focus:border-blue-600 w-2/6'
                           }
                           onChange={(e) => setMintQuantity(e.target.value)}
                           value={mintQuantity}
@@ -181,21 +172,22 @@ function Home() {
                           ref={mintQuantityInputRef}
                         />
                         <button
-                        onClick={incNum}
-                        className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 ml-6 rounded-md"
-                        > + </button>
+                          onClick={incNum}
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 ml-6 rounded-md"
+                        > +
+                        </button>
                       </div>
                       <div className="buttons mt-4">
 
                         {isConnected ? <button
-                          className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-tr rounded-br w-1/3"
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-md w-1/3"
                           onClick={mintNFTs}
                         >
                           Mint
                         </button> :
                           openConnectModal && (
                             <button
-                              className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-4 rounded-tr rounded-br w-1/3"
+                              className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-4 rounded-md w-1/3"
                               onClick={openConnectModal}
                               type='button'
                             >
