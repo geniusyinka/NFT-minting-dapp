@@ -10,7 +10,7 @@ export default function TotalSupply() {
     const [totalValue, setTotalValue] = useState(0)
 
     // Constants
-    const TOTAL = 10000;
+    const TOTAL = 3000;
 
     useEffect( function() {
         async function fetchTotals() {
@@ -58,9 +58,9 @@ export default function TotalSupply() {
 
     return (
         <div className=" mb-11">
-            <p>
-                Tokens minted: { loading ? 'Loading...' : `${totalMinted}/${TOTAL}` }<br />
-                Contract value: { loading ? 'Loading...' : `${totalValue}ETH` }
+            <p className=' text-2xl'>
+                { loading ? 'Loading...' :  `${ totalMinted}/${TOTAL}` }  <br />
+                {/* Contract value: { loading ? 'Loading...' : `${totalValue}ETH` } */}
             </p>
         </div>
     )
