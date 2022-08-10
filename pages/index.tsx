@@ -18,12 +18,14 @@ import TotalSupply from '../components/TotalSupply'
 import Wallet from '../components/Wallet'
 import YourNFTs from '../components/YourNFTs'
 import { connected } from 'process';
+import SendEth from '../components/SendEth'
 
 
 function Home() {
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { openChainModal } = useChainModal();
+  const CONTRACT_ADDRESS = '0x023588EE30198e80E88BF15B4CC7cCAd921B8B92'
 
   const { address, isConnecting, isDisconnected, isConnected, account } = useAccount({
     onConnect({ address, connector, isReconnected }) {
@@ -85,7 +87,7 @@ function Home() {
         setMintLoading(true)
         // Interact with contract
         const contract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_MINTER_ADDRESS,
+          CONTRACT_ADDRESS,
           Minter.abi,
           signer,
         )
@@ -109,6 +111,8 @@ function Home() {
     }
     setMintLoading(false)
   }
+
+
   const incNum = () => {
     if (mintQuantity < 10) {
       setMintQuantity(Number(mintQuantity) + 1)
@@ -119,6 +123,14 @@ function Home() {
     if (mintQuantity > 0) {
       setMintQuantity(mintQuantity - 1)
     }
+  }
+
+   const getSigner =  async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    console.log( provider)
+
+    const signer =  provider.getSigner()
+    console.log(await signer, 'signer')
   }
 
   return (
@@ -136,7 +148,7 @@ function Home() {
         </Head>
         <main className="space-y-8">
           <div className="head mt-14">
-            {!process.env.NEXT_PUBLIC_MINTER_ADDRESS ? (
+            {!CONTRACT_ADDRESS ? (
               <p className="text-md">
                 Please add a value to the <pre>NEXT_PUBLIC_MINTER_ADDRESS</pre>{' '}
                 environment variable.
@@ -193,7 +205,14 @@ function Home() {
                             >
                               connect wallet
                             </button>)
-                        }
+                        } <br /> <br />
+                        {/* <button
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-4 rounded-md w-1/3"
+                          onClick={getSigner}
+                          type='button'
+                        >
+                          get signer
+                        </button> */}
                       </div>
 
                       {mintMessage && (
@@ -212,7 +231,7 @@ function Home() {
                 </div>
               </>
             )}
-            {isConnected ? <YourNFTs /> : null}
+            <YourNFTs />
           </div>
         </main>
         <footer className="mt-20 text-center">

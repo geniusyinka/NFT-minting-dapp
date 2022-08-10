@@ -8,13 +8,13 @@ import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
-    chain.localhost,
-    chain.polygon,
-    chain.optimism,
-    chain.arbitrum,
+    chain.rinkeby,
+    // chain.polygon,
+    // chain.optimism,
+    // chain.arbitrum,
     
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'false'
-      ? [chain.goerli, chain.kovan, chain.rinkeby, chain.ropsten, chain.localhost]
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
+      ? [chain.goerli, chain.kovan, chain.rinkeby, chain.ropsten]
       : []),
   ],
   [

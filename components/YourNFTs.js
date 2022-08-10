@@ -6,6 +6,7 @@ import Minter from '../src/artifacts/contracts/Minter.sol/Minter.json'
 export default function YourNFTs() {
     // UI state
     const [nfts, setNfts] = useState([])
+    const CONTRACT_ADDRESS = '0x023588EE30198e80E88BF15B4CC7cCAd921B8B92';
 
     useEffect( function() {
         getNftsOfCurrentWallet()
@@ -19,7 +20,7 @@ export default function YourNFTs() {
             // Fetch data from contract
             const provider = new ethers.providers.Web3Provider(window.ethereum)
             const signer = provider.getSigner()
-            const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MINTER_ADDRESS, Minter.abi, provider)
+            const contract = new ethers.Contract(CONTRACT_ADDRESS, Minter.abi, provider)
             const address = await signer.getAddress()
             // Get amount of tokens owned by this address
             const tokensOwned = await contract.balanceOf(address)
