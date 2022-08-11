@@ -25,7 +25,7 @@ function Home() {
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { openChainModal } = useChainModal();
-  const CONTRACT_ADDRESS = '0x023588EE30198e80E88BF15B4CC7cCAd921B8B92'
+  const CONTRACT_ADDRESS = '0x023588EE30198e80E88BF15B4CC7cCAd921B8B92';
 
   const { address, isConnecting, isDisconnected, isConnected, account } = useAccount({
     onConnect({ address, connector, isReconnected }) {
@@ -191,7 +191,7 @@ function Home() {
                       </div>
                       <div className="buttons mt-4">
 
-                        {isConnected ? <button
+                        {address ? <button
                           className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-md w-1/3"
                           onClick={mintNFTs}
                         >
