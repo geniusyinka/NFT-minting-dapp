@@ -8,6 +8,7 @@ export default function TotalSupply() {
     const [loading, setLoading] = useState(true)
     const [totalMinted, setTotalMinted] = useState(0)
     const [totalValue, setTotalValue] = useState(0)
+    const CONTRACT_ADDRESS = '0x023588EE30198e80E88BF15B4CC7cCAd921B8B92';
 
     // Constants
     const TOTAL = 3000;
@@ -19,10 +20,8 @@ export default function TotalSupply() {
                 setLoading(false)
                 return
             }
-    
             await getTotalSupply()
             await getTotalValue()
-        
             setLoading(false)
         }
         fetchTotals();
@@ -33,9 +32,8 @@ export default function TotalSupply() {
         try {
           // Interact with contract
           const provider = new ethers.providers.Web3Provider(window.ethereum)
-          const contract = new ethers.Contract(process.env.NEXT_PUBLIC_MINTER_ADDRESS, Minter.abi, provider)
-          const data = await contract.totalSupply()
-      
+          const contract = new ethers.Contract(CONTRACT_ADDRESS, Minter.abi, provider)
+          const data = await contract.totalSupply()      
           setTotalMinted(data.toNumber());
         } catch(error) {
             console.log(error)
@@ -59,7 +57,7 @@ export default function TotalSupply() {
     return (
         <div className=" mb-11">
             <p className=' text-2xl'>
-                { loading ? 'Loading...' :  `${ totalMinted}/${TOTAL}` }  <br />
+                minted: { loading ? 'Loading...' :  `${ totalMinted}/${TOTAL}` }  <br />
                 {/* Contract value: { loading ? 'Loading...' : `${totalValue}ETH` } */}
             </p>
         </div>
