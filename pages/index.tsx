@@ -231,7 +231,11 @@ function Home() {
                 </div>
               </>
             )}
-            <YourNFTs />
+
+            { address?
+
+            <YourNFTs /> : null
+            }
           </div>
         </main>
         <footer className="mt-20 text-center">
